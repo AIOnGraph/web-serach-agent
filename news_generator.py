@@ -12,22 +12,7 @@ class NewsGenerator:
         Initializes the GlamourFashionNewsBot with the necessary API keys, search tools, and prompt templates.
         """
         self.news_content = []
-        self.prompt = ChatPromptTemplate(
-            messages=[
-                SystemMessagePromptTemplate.from_template(
-                    """
-                        You are a helpful assistant. 
-                        You will summarize the provided news content.
-                        You will never provide any url or website in response,like PEOPLE.com,glamour.com etc.
-                        Strictly follow these guidelines. 
-                        News Content: {news_content} 
-                        Helpful Answer:
-                    """
-                ),
-                HumanMessagePromptTemplate.from_template("{question}, ")
-            ],
-            input_variables=["question", 'news_content']
-        )
+        self.news_url = []
         self.llm = ChatGroq(
             api_key=st.secrets['GROQ_API_KEY'],
             model="llama3-70b-8192",
@@ -48,9 +33,10 @@ class NewsGenerator:
         news_result = self.search_tool.invoke({'query': news})
         for news in news_result:
             self.news_content.append(news['content'])
+            self.news_url.append(news['url'])
         return True
 
-    def generate_news_summary(self, user_question, prompt,memory):
+    def generate_news_summary(self, user_question, prompt):
         """
         Generates a news summary related to glamour and fashion using the ChatGroq model.
 
@@ -63,13 +49,13 @@ class NewsGenerator:
         try:
             chain = (prompt | self.llm)
             output = ""
-            for chunk in chain.stream({"question": user_question, 'news_content': self.news_content,"memory":memory}):
+            for chunk in chain.stream({"question": user_question, 'news_content': self.news_content,"news_url":self.news_url}):
                 output += chunk.content
                 yield chunk.content
                 time.sleep(0.05)
         except AuthenticationError:
             return 'AuthenticationError'
-    def run(self, question,prompt,memory):
+    def run(self, question,prompt):
         """
         Runs the bot to fetch news articles and generate a news summary.
 
@@ -77,7 +63,7 @@ class NewsGenerator:
             question (str): The user's question or request for news.
         """
         self.fetch_news_articles(question)
-        news_summary = self.generate_news_summary(question,prompt,memory)
+        news_summary = self.generate_news_summary(question,prompt)
         return news_summary
 
 if __name__ == "__main__":
