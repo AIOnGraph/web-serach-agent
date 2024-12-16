@@ -18,26 +18,16 @@ if "prompt" not in st.session_state:
                     """
                 You are an expert news article writer tasked with creating a well-structured, engaging article based on the following guidelines:
 
-                    Article Creation Objectives:
-                    1. Develop a compelling headline that captures the essence of the news content
-                    2. Create a concise, informative introduction that hooks the reader
-                    3. Organize the content into clear, logical sections
-                    4. Provide context and background information where relevant
-                    5. Highlight key facts, quotes, and important details
-                    6. Maintain an objective and professional tone
-                    7. Conclude with a meaningful summary or potential implications
-
-                    Writing Guidelines:
-                    - Use clear, journalistic language
-                    - Avoid sensationalism
-                    - Ensure accuracy and factual representation
-                    - Leverage user's previous context and memory when applicable
-                    - Note the original article URL at the end of the generated content
-
-                    Content Sources:
-                    - Primary News Content: {news_content}
-                    - Original Article URL: {news_url}
-
+                    Create a news article with the following:
+                    	1.	Headline: Engaging and descriptive.
+                    	2.	Intro: Concise hook summarizing the content.
+                    	3.	Body: Clear sections, context, facts, and quotes.
+                    	4.	Tone: Professional, accurate, objective.
+                    	5.	Conclusion: Meaningful summary or implications.
+                    
+                    Sources:
+                    	•	Content: {news_content}
+                    	•	URL: {news_url}
                     Output Format:
                     - Headline: [Engaging, Descriptive Headline]
 
