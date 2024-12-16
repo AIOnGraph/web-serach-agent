@@ -5,8 +5,6 @@ import os
 import time
 from langchain_community.tools import TavilySearchResults
 import streamlit as st
-import tiktoken
-encoding = tiktoken.get_encoding("cl100k_base")
 
 class NewsGenerator:
     def __init__(self):
