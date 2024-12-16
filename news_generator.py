@@ -5,6 +5,8 @@ import os
 import time
 from langchain_community.tools import TavilySearchResults
 import streamlit as st
+import tiktoken
+encoding = tiktoken.get_encoding("cl100k_base")
 
 class NewsGenerator:
     def __init__(self):
@@ -21,7 +23,7 @@ class NewsGenerator:
             streaming=True,
             verbose=True
         )
-        self.search_tool = TavilySearchResults(search_depth="advanced",verbose=True, description="Glamour and fashion",max_results=15)
+        self.search_tool = TavilySearchResults(search_depth="advanced",verbose=True, description="Glamour and fashion",max_results=10)
 
     def fetch_news_articles(self,news):
         """
